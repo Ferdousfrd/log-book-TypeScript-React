@@ -5,6 +5,7 @@ import { Container } from "react-bootstrap"
 import { useLocalStorage } from "./components/useLocalStorage"
 import { useMemo } from "react"
 import { v4 as uuidV4 } from "uuid"
+import { NoteList } from "./components/NoteList"
 
 
 
@@ -60,7 +61,7 @@ function App() {
   return (   
     <Container className="my-4">  
       <Routes>
-        <Route path="/" element={<h1>Home</h1>} />
+        <Route path="/" element={<NoteList notes={notesWithTags} availableTags={tags}/>} />
         <Route path="/new" element={
           <NewNote 
             onSubmit={onCreateNote} 
