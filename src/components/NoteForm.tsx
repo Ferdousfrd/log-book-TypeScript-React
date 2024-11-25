@@ -9,13 +9,14 @@ type NoteFormProps = {
     onSubmit: (data: NoteData) => void,
     onAddTag: (tag: Tag) => void,
     availableTags: Tag[]
-}
+} & Partial<NoteData>               // Partial generic to make notedata optional. Only use in edit
 
-export default function NoteForm({ onSubmit,onAddTag, availableTags }: NoteFormProps){
+
+export default function NoteForm({ onSubmit,onAddTag, availableTags, title="", markdown="", tags = [] }: NoteFormProps){
 
     const taskTitleRef = useRef<HTMLInputElement>(null)
     const taskBodyRef = useRef<HTMLTextAreaElement>(null)
-    const [selectedTags, setSelectedTags] = useState<Tag[]>([])
+    const [selectedTags, setSelectedTags] = useState<Tag[]>(tags)
     const navigate = useNavigate()
 
 
@@ -40,7 +41,7 @@ export default function NoteForm({ onSubmit,onAddTag, availableTags }: NoteFormP
                         <Form.Group controlId="title">
                             <Form.Label>TItle</Form.Label>
                             {/* this <Form.Control> is just input field under the hood. this ref is reference to our const asigned above with useRef() hook*/}
-                            <Form.Control ref={taskTitleRef} required />         
+                            <Form.Control ref={taskTitleRef} required defaultValue={title}/>         
                         </Form.Group>
                     </Col>
                     <Col>
@@ -73,7 +74,7 @@ export default function NoteForm({ onSubmit,onAddTag, availableTags }: NoteFormP
                 <Form.Group controlId="markdown">
                     <Form.Label>Body</Form.Label>
                      {/* this is just textarea field under the hood. added 15 rows so its bigger text field. also adding ref*/}
-                    <Form.Control ref={taskBodyRef} required as="textarea" rows={15} />          
+                    <Form.Control ref={taskBodyRef} required defaultValue={markdown} as="textarea" rows={15} />          
                 </Form.Group>          
 
                 {/* this stack is for form buttons*/}
